@@ -1,0 +1,13 @@
+{
+  "name": "slide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Slides locales TypeScript pour présenter le projet crossword solver",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
