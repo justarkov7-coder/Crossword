@@ -1,0 +1,52 @@
+const assert = require('assert');
+const { crosswordSolver } = require('./crosswordSolver');
+
+function captureOutput(fn) {
+  const logs = [];
+  const original = console.log;
+  console.log = (...args) => logs.push(args.join(' '));
+  try {
+    fn();
+  } finally {
+    console.log = original;
+  }
+  return logs.join('\n');
+}
+
+function testUniqueSolution() {
+  const output = captureOutput(() => {
+    crosswordSolver(`2001\n0..0\n1000\n0..0`, ['casa', 'alan', 'ciao', 'anta']);
+  });
+  assert.strictEqual(output, `casa\ni..l\nanta\no..n`);
+}
+
+function testNoSolution() {
+  const output = captureOutput(() => {
+    crosswordSolver(`2001\n0..0\n1000\n0..0`, ['casa', 'alan', 'xxxx', 'anta']);
+  });
+  assert.strictEqual(output, 'Error');
+}
+
+function testAmbiguousSolution() {
+  const output = captureOutput(() => {
+    crosswordSolver('10.10', ['ab', 'cd']);
+  });
+  assert.strictEqual(output, 'Error');
+}
+
+function testInvalidFormat() {
+  const output = captureOutput(() => {
+    crosswordSolver(`20a1\n0..0`, ['aa']);
+  });
+  assert.strictEqual(output, 'Error');
+}
+
+function run() {
+  testUniqueSolution();
+  testNoSolution();
+  testAmbiguousSolution();
+  testInvalidFormat();
+  console.log('OK: 4/4 tests passés');
+}
+
+run();
